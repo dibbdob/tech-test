@@ -17,7 +17,28 @@ namespace SuperHeroes
         {
             var characters = await this.characterLoader.RetrieveCharacters();
 
-            throw new NotImplementedException();
+            // Get the characters
+            Character hero = characters.Single(m => m.Name == heroName);
+            Character villain = characters.Single(m => m.Name == villainName);
+
+            // Check the types are not the same
+            if (!ValidCharacterTypes(hero, villain))
+            {
+                throw new ApplicationException("A fight cannot take place between identical character types");
+            }
+
+            // Return the name of the winner
+            return GetWinner(hero, villain);
+        }
+
+        public static bool ValidCharacterTypes(Character hero, Character villian)
+        {
+            return !(hero.Type == villian.Type);
+        }
+
+        public static string GetWinner(Character hero, Character villian)
+        {
+            return (hero.Score > villian.Score ? hero.Name : villian.Name);
         }
     }
 }
