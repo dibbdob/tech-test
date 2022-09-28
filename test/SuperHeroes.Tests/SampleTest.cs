@@ -15,10 +15,10 @@ namespace SuperHeroes.Tests
             Character joker = new Character("Joker", 2.3, CharacterType.Villain);
 
             // Act
-            var validCharactertypes = Battle.ValidCharacterTypes(batman, joker);
+            var validCharacterTypes = Battle.ValidCharacterTypes(batman, joker);
 
             // Assert
-            Assert.True(validCharactertypes);
+            validCharacterTypes.ShouldBeTrue();
         }
 
         [Fact]
@@ -29,10 +29,10 @@ namespace SuperHeroes.Tests
             Character joker = new Character("Joker", 2.3, CharacterType.Villain);
 
             // Act
-            var validCharactertypes = Battle.ValidCharacterTypes(batman, joker);
+            var validCharacterTypes = Battle.ValidCharacterTypes(batman, joker);
 
             // Assert
-            Assert.False(validCharactertypes);
+            validCharacterTypes.ShouldBeFalse();
         }
 
         [Fact]
@@ -46,7 +46,20 @@ namespace SuperHeroes.Tests
             var winner = Battle.GetWinner(batman, joker);
 
             // Assert
-            Assert.Same(winner, "Joker");
+            winner.ShouldMatch("Joker");
+        }
+
+        [Fact]
+        public async void BattleTest()
+        {
+            // Arrange
+            var battle = new Battle(new MockFileCharacterLoader());
+
+            // Act
+            var winner = await battle.Fight("Batman", "Lex Luther");
+
+            // Assert
+            winner.ShouldMatch("Lex Luther");
         }
     }
 }
