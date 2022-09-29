@@ -8,7 +8,7 @@ namespace SuperHeroes.Tests
     public class SampleTest
     {
         [Fact]
-        public void CanBattleWhenCharacterTypesAreDifferent()
+        public void CanFightWhenCharacterTypesAreDifferent()
         {
             // Arrange
             Character batman = new Character("Batman", 1.0, CharacterType.Hero);
@@ -22,7 +22,7 @@ namespace SuperHeroes.Tests
         }
 
         [Fact]
-        public void CannotBattleWhenCharacterTypesAreSame()
+        public void CannotFightWhenCharacterTypesAreSame()
         {
             // Arrange
             Character batman = new Character("Batman", 1.0, CharacterType.Villain);
@@ -50,7 +50,7 @@ namespace SuperHeroes.Tests
         }
 
         [Fact]
-        public async void BattleTest()
+        public async void FightOutcomeIndicatesWinnerName()
         {
             // Arrange
             var battle = new Battle(new MockFileCharacterLoader());
@@ -60,6 +60,19 @@ namespace SuperHeroes.Tests
 
             // Assert
             winner.ShouldMatch("Lex Luther");
+        }
+
+        [Fact]
+        public async void CharacterLoaderReturnsExpectedCountOfCharacters()
+        {
+            // Arrange
+            var loader =  new MockFileCharacterLoader();
+
+            // Act
+            var count = (await loader.RetrieveCharacters()).Count();
+
+            // Assert
+            count.ShouldBe(2);
         }
     }
 }
